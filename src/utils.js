@@ -50,3 +50,4 @@ export function topContactsByValue(contacts, deals, limit = 5) {
     .sort((a, b) => b.total - a.total)
     .slice(0, limit);
 }
+// smoke
