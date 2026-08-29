@@ -117,3 +117,4 @@ Proprietary — all rights reserved unless a LICENSE file says otherwise.
 
 ## Engines
 Business logic lives under src/engines.
+## Domain engines
