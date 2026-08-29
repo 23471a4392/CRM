@@ -114,3 +114,6 @@ reference on any of its deals rather than deleting the deals themselves.
 ## License
 
 Proprietary — all rights reserved unless a LICENSE file says otherwise.
+
+## Engines
+Business logic lives under src/engines.
