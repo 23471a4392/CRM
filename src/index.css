@@ -1,0 +1,194 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+:root {
+  /* Default Dark Ledger Theme */
+  --bg: #141716;
+  --surface: #1C201E;
+  --surface-2: #242A27;
+  --surface-3: #2F3632;
+  --border: #38423C;
+  --border-subtle: #29312C;
+  --text: #E8ECE9;
+  --text-muted: #8E9B91;
+  --text-dim: #5C675F;
+  --accent: #E2C08D;
+  --accent-hover: #EED1A3;
+  --accent-soft: rgba(226, 192, 141, 0.12);
+  --accent-border: rgba(226, 192, 141, 0.35);
+  --positive: #7FA98C;
+  --positive-soft: rgba(127, 169, 140, 0.15);
+  --negative: #C17A5C;
+  --negative-soft: rgba(193, 122, 92, 0.15);
+  --warning: #D9A74A;
+  --warning-soft: rgba(217, 167, 74, 0.15);
+  --info: #7C9CBF;
+  --info-soft: rgba(124, 156, 191, 0.15);
+  --ring: rgba(226, 192, 141, 0.4);
+}
+
+[data-theme="parchment"] {
+  /* Warm Antique Ledger Theme */
+  --bg: #F4EFE6;
+  --surface: #FCFAF6;
+  --surface-2: #EAE3D5;
+  --surface-3: #DFD7C5;
+  --border: #C8BEAC;
+  --border-subtle: #DCD4C4;
+  --text: #2C261E;
+  --text-muted: #726859;
+  --text-dim: #A19685;
+  --accent: #8E5B23;
+  --accent-hover: #A76E30;
+  --accent-soft: rgba(142, 91, 35, 0.12);
+  --accent-border: rgba(142, 91, 35, 0.35);
+  --positive: #2E6B47;
+  --positive-soft: rgba(46, 107, 71, 0.15);
+  --negative: #9B3B2B;
+  --negative-soft: rgba(155, 59, 43, 0.15);
+  --warning: #A06D14;
+  --warning-soft: rgba(160, 109, 20, 0.15);
+  --info: #2B5E86;
+  --info-soft: rgba(43, 94, 134, 0.15);
+  --ring: rgba(142, 91, 35, 0.3);
+}
+
+[data-theme="light"] {
+  /* Crisp Modern Clean Theme */
+  --bg: #F8FAFC;
+  --surface: #FFFFFF;
+  --surface-2: #F1F5F9;
+  --surface-3: #E2E8F0;
+  --border: #CBD5E1;
+  --border-subtle: #E2E8F0;
+  --text: #0F172A;
+  --text-muted: #64748B;
+  --text-dim: #94A3B8;
+  --accent: #0D9488;
+  --accent-hover: #0F766E;
+  --accent-soft: rgba(13, 148, 136, 0.12);
+  --accent-border: rgba(13, 148, 136, 0.35);
+  --positive: #16A34A;
+  --positive-soft: rgba(22, 163, 74, 0.15);
+  --negative: #DC2626;
+  --negative-soft: rgba(220, 38, 38, 0.15);
+  --warning: #D97706;
+  --warning-soft: rgba(217, 119, 6, 0.15);
+  --info: #2563EB;
+  --info-soft: rgba(37, 99, 235, 0.15);
+  --ring: rgba(13, 148, 136, 0.3);
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography styles */
+.ledger-display {
+  font-family: "Georgia", "Cambria", "Times New Roman", Times, serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.ledger-mono {
+  font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  letter-spacing: -0.02em;
+}
+
+.ledger-root {
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+/* Inputs & Form Controls */
+.ledger-input {
+  background-color: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ledger-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.ledger-input::placeholder {
+  color: var(--text-dim);
+}
+
+/* Custom button states & hover */
+.tab-btn {
+  transition: all 0.15s ease;
+}
+
+.tab-btn:hover:not([style*="var(--accent)"]) {
+  background-color: var(--surface-2) !important;
+  color: var(--text) !important;
+}
+
+.row-hover {
+  transition: transform 0.12s ease, border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.row-hover:hover {
+  border-color: var(--accent-border) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* Scrollbar styles */
+.scrollbar-ledger::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scrollbar-ledger::-webkit-scrollbar-track {
+  background: var(--surface);
+}
+
+.scrollbar-ledger::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+.scrollbar-ledger::-webkit-scrollbar-thumb:hover {
+  background: var(--text-dim);
+}
+
+/* Modal and backdrop animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.modal-backdrop {
+  animation: fadeIn 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.modal-content {
+  animation: slideUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Glassmorphism accent details */
+.glass-panel {
+  background: rgba(28, 32, 30, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}

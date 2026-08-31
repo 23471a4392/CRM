@@ -1,20 +1,20 @@
 /** Validation & stage transitions */
-export function validateEmail(email) {{
-  if (!email) return {{ ok:false, error:"required" }};
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email))) return {{ ok:false, error:"invalid" }};
-  return {{ ok:true }};
-}}
-export function validateContact(c) {{
+export function validateEmail(email) {
+  if (!email) return { ok:false, error:"required" };
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email))) return { ok:false, error:"invalid" };
+  return { ok:true };
+}
+export function validateContact(c) {
   const errors = [];
   if (!c.name || String(c.name).trim().length < 2) errors.push("name");
   const e = validateEmail(c.email);
   if (!e.ok) errors.push(e.error);
-  return {{ ok: !errors.length, errors }};
-}}
-export function canTransition(from, to) {{
-  const t = {{ lead:["contacted","lost"], contacted:["proposal","lead","lost"], proposal:["negotiation","won","lost"], negotiation:["won","lost","proposal"], won:[], lost:["lead"] }};
+  return { ok: !errors.length, errors };
+}
+export function canTransition(from, to) {
+  const t = { lead:["contacted","lost"], contacted:["proposal","lead","lost"], proposal:["negotiation","won","lost"], negotiation:["won","lost","proposal"], won:[], lost:["lead"] };
   return (t[from]||[]).includes(to);
-}}
+}
 
 export function policyVariant1(entity, ctx={}) {
   const v = [];
