@@ -517,7 +517,7 @@ class CrmBackendStore {
     if (this.initialized) return;
 
     try {
-      const [accounts, contacts, deals, quotes, inquiries, activities, notifications, auditLogs] =
+      const [accounts, contacts, deals, quotes, inquiries, activities, notifications, auditLogs, dynamicUsers] =
         await Promise.all([
           getJSON("shared_accounts", null),
           getJSON("shared_contacts", null),
@@ -527,6 +527,7 @@ class CrmBackendStore {
           getJSON("shared_activities", null),
           getJSON("shared_notifications", null),
           getJSON("shared_audit_logs", null),
+          getJSON("shared_users", null),
         ]);
 
       if (!accounts || accounts.length === 0) {
@@ -539,6 +540,7 @@ class CrmBackendStore {
           setJSON("shared_activities", SEED_ACTIVITIES_RELATIONAL),
           setJSON("shared_notifications", SEED_NOTIFICATIONS_RELATIONAL),
           setJSON("shared_audit_logs", []),
+          setJSON("shared_users", USERS),
         ]);
       }
       this.initialized = true;
@@ -548,6 +550,23 @@ class CrmBackendStore {
   }
 
   // Raw Database Access
+  async getUsers() {
+    await this.init();
+    const stored = (await getJSON("shared_users", [])) || [];
+    // Merge stored with seed users if not already present
+    const map = new Map();
+    USERS.forEach((u) => map.set(u.id, u));
+    stored.forEach((u) => map.set(u.id, u));
+    return Array.from(map.values());
+  }
+
+  async saveRegisteredUser(user) {
+    await this.init();
+    const users = await this.getUsers();
+    const updated = [user, ...users.filter((u) => u.id !== user.id)];
+    await setJSON("shared_users", updated);
+    return user;
+  }
   async getAccounts() {
     await this.init();
     return (await getJSON("shared_accounts", SEED_ACCOUNTS)) || [];

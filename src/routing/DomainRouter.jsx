@@ -3,6 +3,7 @@ import { authService, DOMAIN_CONFIG } from "../backend/authService.js";
 import { crmBackend, USERS } from "../backend/crmBackend.js";
 import DomainSwitcherBar from "../components/DomainSwitcherBar.jsx";
 import DomainGuard from "./DomainGuard.jsx";
+import LandingPage from "../views/LandingPage.jsx";
 import LoginView from "../views/LoginView.jsx";
 import SalesDomainApp from "../views/sales/SalesDomainApp.jsx";
 import ManagerDomainApp from "../views/manager/ManagerDomainApp.jsx";
@@ -13,12 +14,12 @@ import CustomerDomainApp from "../views/customer/CustomerDomainApp.jsx";
  * Detects domain from hostname or query parameters
  */
 function detectDomainFromHost() {
-  if (typeof window === "undefined") return "sales";
+  if (typeof window === "undefined") return "landing";
   const hostname = window.location.hostname.toLowerCase();
   const searchParams = new URLSearchParams(window.location.search);
   const paramDomain = searchParams.get("domain");
 
-  if (paramDomain && ["sales", "manager", "accounts", "customer", "login"].includes(paramDomain)) {
+  if (paramDomain && ["sales", "manager", "accounts", "customer", "login", "landing"].includes(paramDomain)) {
     return paramDomain;
   }
 
@@ -28,16 +29,17 @@ function detectDomainFromHost() {
   if (hostname.startsWith("customer.")) return "customer";
   if (hostname.startsWith("auth.") || hostname.startsWith("login.")) return "login";
 
-  // Default to user's assigned role domain if logged in
+  // Default to user's assigned role domain if logged in, else landing
   const user = authService.getCurrentUser();
   if (user) return authService.getDomainForRole(user.role);
 
-  return "login";
+  return "landing";
 }
 
 export default function DomainRouter() {
   const [currentDomain, setCurrentDomain] = useState(detectDomainFromHost);
   const [currentUser, setCurrentUser] = useState(() => authService.getCurrentUser());
+  const [authInitialMode, setAuthInitialMode] = useState("signin");
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
@@ -62,6 +64,16 @@ export default function DomainRouter() {
     window.history.pushState({}, "", url);
   }, []);
 
+  const handleOpenLogin = useCallback(() => {
+    setAuthInitialMode("signin");
+    handleSwitchDomain("login");
+  }, [handleSwitchDomain]);
+
+  const handleOpenSignUp = useCallback(() => {
+    setAuthInitialMode("signup");
+    handleSwitchDomain("login");
+  }, [handleSwitchDomain]);
+
   const handleQuickSwitchUser = useCallback((user) => {
     setCurrentUser(user);
     try {
@@ -79,9 +91,9 @@ export default function DomainRouter() {
   const handleLogout = useCallback(() => {
     authService.logout();
     setCurrentUser(null);
-    setCurrentDomain("login");
+    setCurrentDomain("landing");
     const url = new URL(window.location);
-    url.searchParams.set("domain", "login");
+    url.searchParams.set("domain", "landing");
     window.history.pushState({}, "", url);
   }, []);
 
@@ -102,7 +114,7 @@ export default function DomainRouter() {
     <div className="min-h-screen flex flex-col bg-background text-text">
       {/* Top Multi-Domain Simulator Bar */}
       <DomainSwitcherBar
-        currentDomain={currentDomain}
+        currentDomain={currentDomain === "landing" ? "sales" : currentDomain}
         currentUser={currentUser}
         onSwitchDomain={handleSwitchDomain}
         onQuickSwitchUser={handleQuickSwitchUser}
@@ -111,8 +123,18 @@ export default function DomainRouter() {
 
       {/* Main Content Router */}
       <div className="flex-1 flex flex-col">
-        {currentDomain === "login" || !currentUser ? (
-          <LoginView onLoginSuccess={handleLoginSuccess} />
+        {currentDomain === "landing" ? (
+          <LandingPage
+            onOpenLogin={handleOpenLogin}
+            onOpenSignUp={handleOpenSignUp}
+            onQuickLaunchRole={(user) => handleQuickSwitchUser(user)}
+          />
+        ) : currentDomain === "login" || !currentUser ? (
+          <LoginView
+            initialMode={authInitialMode}
+            onLoginSuccess={handleLoginSuccess}
+            onReturnToLanding={() => handleSwitchDomain("landing")}
+          />
         ) : (
           <DomainGuard
             domain={currentDomain}

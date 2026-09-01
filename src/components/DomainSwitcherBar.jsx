@@ -46,6 +46,17 @@ export default function DomainSwitcherBar({
         <div className="flex items-center gap-1 bg-black/30 p-0.5 rounded-lg border border-white/5">
           <button
             type="button"
+            onClick={() => onSwitchDomain("landing")}
+            className="px-2 py-0.5 rounded text-[11px] font-medium transition"
+            style={{
+              background: currentDomain === "landing" ? "#262B28" : "transparent",
+              color: currentDomain === "landing" ? "#F3F4F6" : "#9CA3AF",
+            }}
+          >
+            Public Website
+          </button>
+          <button
+            type="button"
             onClick={() => onSwitchDomain("login")}
             className="px-2 py-0.5 rounded text-[11px] font-medium transition"
             style={{

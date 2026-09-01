@@ -3,7 +3,7 @@ import { crmBackend, USERS } from "../src/backend/crmBackend.js";
 import { authService, DOMAIN_CONFIG } from "../src/backend/authService.js";
 import { notificationBus } from "../src/backend/notificationBus.js";
 
-describe("Multi-Domain CRM Architecture & Security", () => {
+describe("Multi-Domain CRM Architecture, Registration & Security", () => {
   beforeEach(async () => {
     await crmBackend.resetDatabase();
   });
@@ -32,6 +32,36 @@ describe("Multi-Domain CRM Architecture & Security", () => {
     expect(custRes.user.role).toBe("customer");
     expect(custRes.targetDomain).toBe("customer");
     expect(custRes.domainConfig.fullDomain).toBe("customer.ledgercrm.com");
+  });
+
+  it("registers a new user (Sign Up) and provisions their dedicated role domain", async () => {
+    const regRes = await authService.register({
+      name: "Alex Morgan",
+      email: "alex.rep@enterprise.io",
+      password: "securePassword123",
+      role: "sales_rep",
+      company: "Apex Tech Inc.",
+      title: "Senior Enterprise AE",
+    });
+
+    expect(regRes.user.name).toBe("Alex Morgan");
+    expect(regRes.user.role).toBe("sales_rep");
+    expect(regRes.targetDomain).toBe("sales");
+
+    // Verify user can now log in with their registered credentials
+    const loginRes = await authService.login("alex.rep@enterprise.io", "securePassword123");
+    expect(loginRes.user.id).toBe(regRes.user.id);
+  });
+
+  it("prevents duplicate registration with an existing email address", async () => {
+    await expect(
+      authService.register({
+        name: "Duplicate User",
+        email: "jordan.rep@ledgercrm.com", // existing email
+        password: "password123",
+        role: "sales_rep",
+      })
+    ).rejects.toThrow("already exists");
   });
 
   it("enforces domain security and prevents unauthorized cross-domain access", () => {
