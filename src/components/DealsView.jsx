@@ -13,12 +13,12 @@ import {
   Building2,
   User,
   Calendar,
-  Sparkles,
   Filter,
   DollarSign,
   TrendingUp,
 } from "lucide-react";
 import StageBadge from "./StageBadge.jsx";
+import EmptyStateIllustration from "./EmptyStateIllustration.jsx";
 import { STAGES, stageMeta, currency, formatDate } from "../utils.js";
 
 export default function DealsView({
@@ -210,13 +210,14 @@ export default function DealsView({
       {/* Main Deals Content */}
       {filteredDeals.length === 0 ? (
         <div
-          className="p-12 text-center rounded-xl"
+          className="p-10 text-center rounded-xl space-y-3"
           style={{ background: "var(--surface)", border: "1px dashed var(--border)" }}
         >
-          <div className="text-sm font-semibold mb-1 text-text">
-            {deals.length === 0 ? "No deals in pipeline" : "No deals match active stage or query"}
+          <EmptyStateIllustration type="deals" />
+          <div className="text-sm font-semibold text-text">
+            {deals.length === 0 ? "No sales deals recorded in pipeline" : "No deals match active stage or query"}
           </div>
-          <p className="text-xs mb-4" style={{ color: "var(--text-muted)" }}>
+          <p className="text-xs max-w-sm mx-auto" style={{ color: "var(--text-muted)" }}>
             {deals.length === 0
               ? "Create your first sales deal to begin tracking pipeline stages and expected revenue."
               : "Try switching stage filter to 'All Stages' or clearing the search query."}

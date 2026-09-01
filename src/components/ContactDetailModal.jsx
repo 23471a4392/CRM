@@ -16,7 +16,8 @@ import {
   MessageSquare,
 } from "lucide-react";
 import StageBadge from "./StageBadge.jsx";
-import { currency, getInitials, getAvatarColor, formatDate, stageMeta, STAGES } from "../utils.js";
+import Avatar from "./Avatar.jsx";
+import { currency, formatDate, stageMeta, STAGES } from "../utils.js";
 
 export default function ContactDetailModal({
   contact,
@@ -36,7 +37,6 @@ export default function ContactDetailModal({
   const contactDeals = deals.filter((d) => d.contactId === contact.id);
   const totalValue = contactDeals.reduce((sum, d) => sum + (Number(d.value) || 0), 0);
   const contactActivities = (activities || []).filter((a) => a.contactId === contact.id);
-  const avatarStyle = getAvatarColor(contact.name);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs modal-backdrop">
@@ -56,15 +56,7 @@ export default function ContactDetailModal({
           }}
         >
           <div className="flex items-center gap-4">
-            <div
-              className="w-14 h-14 rounded-xl flex items-center justify-center text-lg font-bold shadow-md shrink-0"
-              style={{
-                background: avatarStyle.bg,
-                color: avatarStyle.text,
-              }}
-            >
-              {getInitials(contact.name)}
-            </div>
+            <Avatar name={contact.name} photoUrl={contact.photoUrl} size="xl" />
             <div>
               <div className="flex items-center gap-2 flex-wrap">
                 <h2 className="ledger-display text-xl font-bold">{contact.name}</h2>

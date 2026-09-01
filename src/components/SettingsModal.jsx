@@ -13,6 +13,7 @@ import {
   Check,
 } from "lucide-react";
 import Field from "./Field.jsx";
+import Avatar from "./Avatar.jsx";
 
 export default function SettingsModal({
   isOpen,
@@ -207,6 +208,20 @@ export default function SettingsModal({
 
           {activeTab === "profile" && (
             <div className="space-y-4">
+              <div className="flex items-center gap-4 p-3 rounded-lg bg-surface-2 border border-border">
+                <Avatar
+                  name={formSettings.userName || "Admin"}
+                  photoUrl={formSettings.userPhotoUrl}
+                  size="lg"
+                />
+                <div className="flex-1 min-w-0">
+                  <div className="font-semibold text-xs text-text">{formSettings.userName || "Admin User"}</div>
+                  <div className="text-[11px]" style={{ color: "var(--text-muted)" }}>
+                    {formSettings.userRole || "Administrator"} · {formSettings.userEmail || "admin@ledger.app"}
+                  </div>
+                </div>
+              </div>
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Field label="Full Name">
                   <input
@@ -229,11 +244,12 @@ export default function SettingsModal({
                     onChange={(e) => handleChange("userRole", e.target.value)}
                   />
                 </Field>
-                <Field label="Default Contact Tag">
+                <Field label="Profile Photo URL (Real Photo / Optional)">
                   <input
                     className="ledger-input w-full rounded px-3 py-2 text-sm"
-                    placeholder="e.g. VIP, Inbound, Warm"
-                    defaultValue="Inbound"
+                    value={formSettings.userPhotoUrl || ""}
+                    onChange={(e) => handleChange("userPhotoUrl", e.target.value)}
+                    placeholder="https://images.unsplash.com/... or leave blank for initials"
                   />
                 </Field>
               </div>

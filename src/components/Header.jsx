@@ -18,7 +18,7 @@ import {
   Download,
   RefreshCw,
 } from "lucide-react";
-import { getInitials } from "../utils.js";
+import Avatar from "./Avatar.jsx";
 
 export default function Header({
   settings,
@@ -269,19 +269,10 @@ export default function Header({
           <button
             onClick={() => setShowProfileMenu(!showProfileMenu)}
             type="button"
-            className="flex items-center gap-1.5 p-1 rounded-full transition hover:opacity-80"
+            className="flex items-center gap-1.5 p-0.5 rounded-full transition hover:opacity-80"
             aria-label="User profile"
           >
-            <div
-              className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shadow-xs"
-              style={{
-                background: "var(--surface-3)",
-                color: "var(--accent)",
-                border: "1px solid var(--accent-border)",
-              }}
-            >
-              {getInitials(settings?.userName || "Ledger User")}
-            </div>
+            <Avatar name={settings?.userName || "Ledger Admin"} photoUrl={settings?.userPhotoUrl} size="sm" />
           </button>
 
           {showProfileMenu && (

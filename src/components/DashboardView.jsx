@@ -13,9 +13,10 @@ import {
   CheckCircle2,
   Download,
   RefreshCw,
-  Sparkles,
+  DollarSign,
   BarChart3,
 } from "lucide-react";
+import Avatar from "./Avatar.jsx";
 import {
   currency,
   pipelineValue,
@@ -23,8 +24,6 @@ import {
   weightedPipelineValue,
   dealsByStage,
   topContactsByValue,
-  getInitials,
-  getAvatarColor,
   formatDate,
 } from "../utils.js";
 
@@ -228,7 +227,7 @@ export default function DashboardView({
         >
           <div className="flex items-center justify-between text-xs" style={{ color: "var(--text-muted)" }}>
             <span className="uppercase tracking-wider font-semibold text-[10px]">Avg Deal</span>
-            <Sparkles size={15} style={{ color: "var(--warning)" }} />
+            <DollarSign size={15} style={{ color: "var(--warning)" }} />
           </div>
           <div className="text-xl sm:text-2xl mt-2 ledger-mono font-bold" style={{ color: "var(--text)" }}>
             {currency(stats.avgDeal, currencyCode)}
@@ -409,7 +408,6 @@ export default function DashboardView({
           ) : (
             <div className="space-y-2">
               {stats.topContacts.map((c) => {
-                const avatar = getAvatarColor(c.name);
                 return (
                   <div
                     key={c.id}
@@ -420,12 +418,7 @@ export default function DashboardView({
                       onClick={() => onSelectContact(c)}
                       className="flex items-center gap-2.5 min-w-0 cursor-pointer flex-1"
                     >
-                      <div
-                        className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold shrink-0 shadow-xs"
-                        style={{ background: avatar.bg, color: avatar.text }}
-                      >
-                        {getInitials(c.name)}
-                      </div>
+                      <Avatar name={c.name} photoUrl={c.photoUrl} size="sm" />
                       <div className="truncate">
                         <div className="font-semibold text-text truncate hover:underline">{c.name}</div>
                         <div className="text-[11px] truncate" style={{ color: "var(--text-muted)" }}>

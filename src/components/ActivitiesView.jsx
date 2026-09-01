@@ -18,6 +18,7 @@ import {
   Pencil,
 } from "lucide-react";
 import { formatDate } from "../utils.js";
+import EmptyStateIllustration from "./EmptyStateIllustration.jsx";
 
 const PLAYBOOK_TEMPLATES = [
   {
@@ -226,11 +227,12 @@ export default function ActivitiesView({
       {/* Main Activities Stack */}
       {filteredActivities.length === 0 ? (
         <div
-          className="p-12 text-center rounded-xl"
+          className="p-10 text-center rounded-xl space-y-3"
           style={{ background: "var(--surface)", border: "1px dashed var(--border)" }}
         >
-          <div className="text-sm font-semibold mb-1 text-text">No activity records found</div>
-          <p className="text-xs mb-4" style={{ color: "var(--text-muted)" }}>
+          <EmptyStateIllustration type="activities" />
+          <div className="text-sm font-semibold text-text">No activity records found</div>
+          <p className="text-xs max-w-sm mx-auto" style={{ color: "var(--text-muted)" }}>
             Schedule and log customer calls, meetings, or reminders to stay on top of opportunities.
           </p>
           <button
@@ -396,7 +398,26 @@ export default function ActivitiesView({
                   </pre>
                 </div>
 
-                <div className="pt-3 mt-3 flex items-center justify-end border-t border-border/40">
+                <div className="pt-3 mt-3 flex items-center justify-end gap-2 border-t border-border/40">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      onOpenAddActivity({
+                        type: p.type,
+                        title: p.title,
+                        description: p.script,
+                      })
+                    }
+                    className="flex items-center gap-1 px-2.5 py-1.5 rounded text-xs transition hover:bg-surface-3"
+                    style={{
+                      background: "var(--surface)",
+                      color: "var(--text)",
+                      border: "1px solid var(--border)",
+                    }}
+                    title="Open log dialog with this script"
+                  >
+                    <Plus size={11} /> Use in Log
+                  </button>
                   <button
                     type="button"
                     onClick={() => handleCopyScript(p)}

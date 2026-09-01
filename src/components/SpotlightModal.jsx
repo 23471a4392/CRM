@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Search, Users, Wallet, CheckSquare, X, ArrowRight, CornerDownLeft } from "lucide-react";
-import { currency, stageMeta, getInitials, getAvatarColor } from "../utils.js";
+import Avatar from "./Avatar.jsx";
+import { currency, stageMeta } from "../utils.js";
 
 export default function SpotlightModal({
   isOpen,
@@ -162,7 +163,6 @@ export default function SpotlightModal({
                   </div>
                   {matchedContacts.map((c, idx) => {
                     const active = selectedIndex === idx;
-                    const avatarStyle = getAvatarColor(c.name);
                     return (
                       <div
                         key={c.id}
@@ -180,15 +180,7 @@ export default function SpotlightModal({
                         }}
                       >
                         <div className="flex items-center gap-2.5 min-w-0">
-                          <div
-                            className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold shrink-0"
-                            style={{
-                              background: avatarStyle.bg,
-                              color: avatarStyle.text,
-                            }}
-                          >
-                            {getInitials(c.name)}
-                          </div>
+                          <Avatar name={c.name} photoUrl={c.photoUrl} size="sm" />
                           <div className="truncate">
                             <span className="font-medium">{c.name}</span>
                             {c.company && (

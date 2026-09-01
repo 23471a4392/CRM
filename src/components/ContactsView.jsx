@@ -19,7 +19,10 @@ import {
   ChevronRight,
   X,
 } from "lucide-react";
-import { currency, getInitials, getAvatarColor, formatDate } from "../utils.js";
+import StageBadge from "./StageBadge.jsx";
+import Avatar from "./Avatar.jsx";
+import EmptyStateIllustration from "./EmptyStateIllustration.jsx";
+import { currency, formatDate } from "../utils.js";
 
 export default function ContactsView({
   contacts,
@@ -315,13 +318,14 @@ export default function ContactsView({
       {/* Main Content Area */}
       {filteredContacts.length === 0 ? (
         <div
-          className="p-12 text-center rounded-xl"
+          className="p-10 text-center rounded-xl space-y-3"
           style={{ background: "var(--surface)", border: "1px dashed var(--border)" }}
         >
-          <div className="text-sm font-semibold mb-1 text-text">
-            {contacts.length === 0 ? "No contacts found" : "No contacts match active filters"}
+          <EmptyStateIllustration type="contacts" />
+          <div className="text-sm font-semibold text-text">
+            {contacts.length === 0 ? "No contacts recorded in ledger" : "No contacts match active filters"}
           </div>
-          <p className="text-xs mb-4" style={{ color: "var(--text-muted)" }}>
+          <p className="text-xs max-w-sm mx-auto" style={{ color: "var(--text-muted)" }}>
             {contacts.length === 0
               ? "Start building your customer directory by adding your first contact record."
               : "Try clearing your search query or changing company/tag filters."}
@@ -352,7 +356,6 @@ export default function ContactsView({
         /* Card Grid View */
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3.5">
           {paginatedContacts.map((c) => {
-            const avatar = getAvatarColor(c.name);
             const isSelected = selectedIds.has(c.id);
             const dealInfo = dealSummaryByContact.get(c.id);
 
@@ -378,12 +381,7 @@ export default function ContactsView({
                         className="w-4 h-4 rounded accent-amber-500 cursor-pointer shrink-0"
                         aria-label={`Select ${c.name}`}
                       />
-                      <div
-                        className="w-10 h-10 rounded-xl flex items-center justify-center text-xs font-bold shrink-0 shadow-xs"
-                        style={{ background: avatar.bg, color: avatar.text }}
-                      >
-                        {getInitials(c.name)}
-                      </div>
+                      <Avatar name={c.name} photoUrl={c.photoUrl} size="md" />
                       <div className="truncate">
                         <h4
                           onClick={() => onSelectContact(c)}
@@ -550,7 +548,6 @@ export default function ContactsView({
                 {paginatedContacts.map((c) => {
                   const isSelected = selectedIds.has(c.id);
                   const dealInfo = dealSummaryByContact.get(c.id);
-                  const avatar = getAvatarColor(c.name);
 
                   return (
                     <tr
@@ -574,12 +571,7 @@ export default function ContactsView({
                           onClick={() => onSelectContact(c)}
                           className="flex items-center gap-2.5 cursor-pointer hover:underline"
                         >
-                          <div
-                            className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold shrink-0"
-                            style={{ background: avatar.bg, color: avatar.text }}
-                          >
-                            {getInitials(c.name)}
-                          </div>
+                          <Avatar name={c.name} photoUrl={c.photoUrl} size="sm" />
                           <div>
                             <div className="font-semibold text-text">{c.name}</div>
                             {c.tags && c.tags.length > 0 && (

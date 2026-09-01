@@ -46,10 +46,22 @@ const TABS = [
   { id: "data", label: "Data & Backup", icon: Database },
 ];
 
+const REAL_PORTRAITS = [
+  "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&auto=format&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&auto=format&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=150&auto=format&fit=crop&q=80",
+];
+
 function normalizeSeedData() {
-  const contacts = SEED_CONTACTS.slice(0, 24).map((c) => ({
+  const contacts = SEED_CONTACTS.slice(0, 24).map((c, i) => ({
     ...c,
     title: c.title || "Executive",
+    photoUrl: i < REAL_PORTRAITS.length ? REAL_PORTRAITS[i] : "",
     tags: c.tags && c.tags.length > 0 ? c.tags : ["Warm", "Inbound"],
   }));
 
@@ -667,7 +679,14 @@ function App() {
               activities={activities}
               contacts={contacts}
               deals={deals}
-              onOpenAddActivity={() => setActivityFormModal({ isOpen: true, initial: null })}
+              onOpenAddActivity={(prefill) =>
+                setActivityFormModal({
+                  isOpen: true,
+                  initial: prefill || null,
+                  preselectedContactId: prefill?.contactId || "",
+                  preselectedDealId: prefill?.dealId || "",
+                })
+              }
               onOpenEditActivity={(act) => setActivityFormModal({ isOpen: true, initial: act })}
               onToggleCompleted={handleToggleActivityCompleted}
               onDeleteActivity={handleDeleteActivity}
