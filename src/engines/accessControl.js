@@ -5,25 +5,33 @@
  */
 
 export const ROLES = {
-  owner: { id: "owner", label: "Owner", level: 100 },
-  admin: { id: "admin", label: "Admin", level: 80 },
-  manager: { id: "manager", label: "Manager", level: 60 },
-  rep: { id: "rep", label: "Sales Rep", level: 40 },
-  viewer: { id: "viewer", label: "Viewer", level: 10 },
+  sales_rep: { id: "sales_rep", label: "Sales Representative", domain: "sales", domainUrl: "https://sales.ledgercrm.com", level: 40 },
+  sales_manager: { id: "sales_manager", label: "Sales Manager", domain: "manager", domainUrl: "https://manager.ledgercrm.com", level: 60 },
+  account_owner: { id: "account_owner", label: "Account Owner", domain: "accounts", domainUrl: "https://accounts.ledgercrm.com", level: 70 },
+  customer: { id: "customer", label: "Customer", domain: "customer", domainUrl: "https://customer.ledgercrm.com", level: 10 },
+  // Aliases
+  rep: { id: "sales_rep", label: "Sales Representative", domain: "sales", domainUrl: "https://sales.ledgercrm.com", level: 40 },
+  manager: { id: "sales_manager", label: "Sales Manager", domain: "manager", domainUrl: "https://manager.ledgercrm.com", level: 60 },
+  owner: { id: "account_owner", label: "Account Owner", domain: "accounts", domainUrl: "https://accounts.ledgercrm.com", level: 70 },
+  admin: { id: "sales_manager", label: "Admin", domain: "manager", domainUrl: "https://manager.ledgercrm.com", level: 80 },
+  viewer: { id: "customer", label: "Viewer", domain: "customer", domainUrl: "https://customer.ledgercrm.com", level: 10 },
 };
 
 export const PERMISSIONS = {
-  "contacts.read": ["owner", "admin", "manager", "rep", "viewer"],
-  "contacts.write": ["owner", "admin", "manager", "rep"],
-  "contacts.delete": ["owner", "admin", "manager"],
-  "deals.read": ["owner", "admin", "manager", "rep", "viewer"],
-  "deals.write": ["owner", "admin", "manager", "rep"],
-  "deals.delete": ["owner", "admin", "manager"],
-  "deals.approve_high_value": ["owner", "admin", "manager"],
-  "reports.read": ["owner", "admin", "manager", "viewer"],
-  "settings.write": ["owner", "admin"],
-  "import.run": ["owner", "admin", "manager"],
-  "export.run": ["owner", "admin", "manager", "rep"],
+  "contacts.read": ["sales_rep", "sales_manager", "account_owner", "rep", "manager", "owner", "admin"],
+  "contacts.write": ["sales_rep", "sales_manager", "account_owner", "rep", "manager", "owner", "admin"],
+  "contacts.delete": ["sales_manager", "account_owner", "manager", "owner", "admin"],
+  "deals.read": ["sales_rep", "sales_manager", "account_owner", "customer", "rep", "manager", "owner", "admin"],
+  "deals.write": ["sales_rep", "sales_manager", "account_owner", "rep", "manager", "owner", "admin"],
+  "deals.delete": ["sales_manager", "account_owner", "manager", "owner", "admin"],
+  "deals.approve_high_value": ["sales_manager", "manager", "owner", "admin"],
+  "reports.read": ["sales_manager", "account_owner", "manager", "owner", "admin"],
+  "accounts.read": ["sales_manager", "account_owner", "manager", "owner", "admin"],
+  "accounts.write": ["account_owner", "sales_manager", "manager", "owner", "admin"],
+  "customer.portal": ["customer", "viewer"],
+  "settings.write": ["sales_manager", "account_owner", "manager", "owner", "admin"],
+  "import.run": ["sales_manager", "account_owner", "manager", "owner", "admin"],
+  "export.run": ["sales_rep", "sales_manager", "account_owner", "rep", "manager", "owner", "admin"],
 };
 
 export function can(role, permission) {

@@ -1,13 +1,13 @@
 /** Notifications & reminders */
-export function buildReminder({{ type, entityId, dueAt, message, priority="normal" }}) {{
-  return {{ id: "rem_"+Date.now().toString(36), type, entityId, dueAt, message, priority, dismissed:false, createdAt: new Date().toISOString() }};
-}}
-export function dealCloseReminders(deals, withinDays=7) {{
-  const now = Date.now(), end = now + withinDays*86400000;
-  return deals.filter(d => !["won","lost"].includes(d.stage) && d.expectedClose)
-    .filter(d => {{ const t = new Date(d.expectedClose).getTime(); return t>=now && t<=end; }})
-    .map(d => buildReminder({{ type:"deal_close", entityId:d.id, dueAt:d.expectedClose, message: "Deal "+d.title+" closing soon" }}));
-}}
+export function buildReminder({ type, entityId, dueAt, message, priority = "normal" }) {
+  return { id: "rem_" + Date.now().toString(36), type, entityId, dueAt, message, priority, dismissed: false, createdAt: new Date().toISOString() };
+}
+export function dealCloseReminders(deals, withinDays = 7) {
+  const now = Date.now(), end = now + withinDays * 86400000;
+  return deals.filter(d => !["won", "lost"].includes(d.stage) && d.expectedClose)
+    .filter(d => { const t = new Date(d.expectedClose).getTime(); return t >= now && t <= end; })
+    .map(d => buildReminder({ type: "deal_close", entityId: d.id, dueAt: d.expectedClose, message: "Deal " + d.title + " closing soon" }));
+}
 
 export function escalateVariant1(daysOverdue) {
   let level = "none";

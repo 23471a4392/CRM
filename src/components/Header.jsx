@@ -272,7 +272,7 @@ export default function Header({
             className="flex items-center gap-1.5 p-0.5 rounded-full transition hover:opacity-80"
             aria-label="User profile"
           >
-            <Avatar name={settings?.userName || "Ledger Admin"} photoUrl={settings?.userPhotoUrl} size="sm" />
+            <Avatar name={settings?.userName || "Ledger Admin"} size="sm" />
           </button>
 
           {showProfileMenu && (

@@ -1,12 +1,15 @@
 /** Revenue forecast & currency */
-const RATES = {{ USD:1, EUR:0.92, GBP:0.79, CAD:1.36, INR:83 }};
-export function convertCurrency(amount, from, to) {{
-  return Math.round(((Number(amount)||0) / (RATES[from]||1) * (RATES[to]||1)) * 100) / 100;
-}}
-export function formatMoney(amount, currency="USD") {{
-  try {{ return new Intl.NumberFormat("en-US", {{ style:"currency", currency }}).format(Number(amount)||0); }}
-  catch {{ return currency + " " + (Number(amount)||0).toFixed(2); }}
-}}
+const RATES = { USD: 1, EUR: 0.92, GBP: 0.79, CAD: 1.36, INR: 83 };
+export function convertCurrency(amount, from, to) {
+  return Math.round(((Number(amount) || 0) / (RATES[from] || 1) * (RATES[to] || 1)) * 100) / 100;
+}
+export function formatMoney(amount, currency = "USD") {
+  try {
+    return new Intl.NumberFormat("en-US", { style: "currency", currency }).format(Number(amount) || 0);
+  } catch {
+    return currency + " " + (Number(amount) || 0).toFixed(2);
+  }
+}
 
 export function forecastVariant1(deals, seasonality=0.91) {
   const open = deals.filter(d => !["won","lost"].includes(d.stage));

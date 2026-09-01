@@ -381,7 +381,7 @@ export default function ContactsView({
                         className="w-4 h-4 rounded accent-amber-500 cursor-pointer shrink-0"
                         aria-label={`Select ${c.name}`}
                       />
-                      <Avatar name={c.name} photoUrl={c.photoUrl} size="md" />
+                      <Avatar name={c.name} size="md" />
                       <div className="truncate">
                         <h4
                           onClick={() => onSelectContact(c)}
@@ -571,7 +571,7 @@ export default function ContactsView({
                           onClick={() => onSelectContact(c)}
                           className="flex items-center gap-2.5 cursor-pointer hover:underline"
                         >
-                          <Avatar name={c.name} photoUrl={c.photoUrl} size="sm" />
+                          <Avatar name={c.name} size="sm" />
                           <div>
                             <div className="font-semibold text-text">{c.name}</div>
                             {c.tags && c.tags.length > 0 && (

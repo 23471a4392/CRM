@@ -211,7 +211,6 @@ export default function SettingsModal({
               <div className="flex items-center gap-4 p-3 rounded-lg bg-surface-2 border border-border">
                 <Avatar
                   name={formSettings.userName || "Admin"}
-                  photoUrl={formSettings.userPhotoUrl}
                   size="lg"
                 />
                 <div className="flex-1 min-w-0">
@@ -244,12 +243,12 @@ export default function SettingsModal({
                     onChange={(e) => handleChange("userRole", e.target.value)}
                   />
                 </Field>
-                <Field label="Profile Photo URL (Real Photo / Optional)">
+                <Field label="Department / Division">
                   <input
                     className="ledger-input w-full rounded px-3 py-2 text-sm"
-                    value={formSettings.userPhotoUrl || ""}
-                    onChange={(e) => handleChange("userPhotoUrl", e.target.value)}
-                    placeholder="https://images.unsplash.com/... or leave blank for initials"
+                    value={formSettings.department || "Enterprise Sales"}
+                    onChange={(e) => handleChange("department", e.target.value)}
+                    placeholder="e.g. Enterprise Accounts"
                   />
                 </Field>
               </div>

@@ -56,7 +56,7 @@ export default function ContactDetailModal({
           }}
         >
           <div className="flex items-center gap-4">
-            <Avatar name={contact.name} photoUrl={contact.photoUrl} size="xl" />
+            <Avatar name={contact.name} size="xl" />
             <div>
               <div className="flex items-center gap-2 flex-wrap">
                 <h2 className="ledger-display text-xl font-bold">{contact.name}</h2>

@@ -1,18 +1,9 @@
 import React, { useState } from "react";
-import { Check, X, Tag, Plus, Camera, Image, Trash2 } from "lucide-react";
+import { Check, X, Tag, Plus, Trash2 } from "lucide-react";
 import Field from "./Field.jsx";
 import Avatar from "./Avatar.jsx";
 
 const SUGGESTED_TAGS = ["VIP", "Enterprise", "Warm", "Follow-up", "SMB", "Partner", "Decision Maker"];
-
-const SAMPLE_REAL_PHOTOS = [
-  { label: "Executive (F)", url: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80" },
-  { label: "Director (M)", url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80" },
-  { label: "Partner (F)", url: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80" },
-  { label: "Executive (M)", url: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80" },
-  { label: "Founder (M)", url: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&auto=format&fit=crop&q=80" },
-  { label: "VP Sales (F)", url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" },
-];
 
 export default function ContactForm({ initial, onCancel, onSave }) {
   const [form, setForm] = useState(
@@ -23,7 +14,6 @@ export default function ContactForm({ initial, onCancel, onSave }) {
       email: "",
       phone: "",
       source: "inbound",
-      photoUrl: "",
       tags: [],
       notes: "",
     }
@@ -77,7 +67,6 @@ export default function ContactForm({ initial, onCancel, onSave }) {
       company: form.company.trim(),
       phone: form.phone.trim(),
       title: form.title.trim(),
-      photoUrl: (form.photoUrl || "").trim(),
       tags: form.tags || [],
     });
   };
@@ -96,13 +85,13 @@ export default function ContactForm({ initial, onCancel, onSave }) {
           style={{ borderBottom: "1px solid var(--border)" }}
         >
           <div className="flex items-center gap-3">
-            <Avatar name={form.name || "New Contact"} photoUrl={form.photoUrl} size="md" />
+            <Avatar name={form.name || "New Contact"} size="md" />
             <div>
               <h3 className="ledger-display text-lg font-semibold">
                 {initial ? "Edit Contact" : "Create New Contact"}
               </h3>
               <p className="text-xs" style={{ color: "var(--text-muted)" }}>
-                Fill in contact details or attach real professional headshot
+                Fill in contact details and company associations
               </p>
             </div>
           </div>
@@ -166,59 +155,6 @@ export default function ContactForm({ initial, onCancel, onSave }) {
                 placeholder="+1 (555) 012-3456"
               />
             </Field>
-
-            <div className="sm:col-span-2">
-              <Field label="Profile Photo (Real Stock Portrait / Photo URL)">
-                <div className="space-y-2">
-                  <div className="flex gap-2">
-                    <input
-                      className="ledger-input flex-1 rounded px-3 py-1.5 text-xs"
-                      value={form.photoUrl || ""}
-                      onChange={set("photoUrl")}
-                      placeholder="https://images.unsplash.com/... or choose below"
-                    />
-                    {form.photoUrl && (
-                      <button
-                        type="button"
-                        onClick={() => setForm({ ...form, photoUrl: "" })}
-                        className="px-2 py-1.5 rounded text-xs hover:bg-surface-2 transition flex items-center gap-1"
-                        style={{ color: "var(--negative)", border: "1px solid var(--border)" }}
-                        title="Remove photo (use initials)"
-                      >
-                        <Trash2 size={12} /> Clear
-                      </button>
-                    )}
-                  </div>
-
-                  {/* Sample real stock portraits */}
-                  <div className="flex items-center gap-2 pt-1 overflow-x-auto pb-1">
-                    <span className="text-[11px] shrink-0" style={{ color: "var(--text-dim)" }}>
-                      Real portraits:
-                    </span>
-                    {SAMPLE_REAL_PHOTOS.map((p, i) => (
-                      <img
-                        key={i}
-                        src={p.url}
-                        alt={p.label}
-                        onClick={() => setForm({ ...form, photoUrl: p.url })}
-                        className={`w-7 h-7 rounded-lg object-cover cursor-pointer border transition hover:scale-110 ${
-                          form.photoUrl === p.url ? "border-amber-400 ring-2 ring-amber-400/40" : "border-border/60 opacity-80 hover:opacity-100"
-                        }`}
-                        title={`Select ${p.label}`}
-                      />
-                    ))}
-                    <button
-                      type="button"
-                      onClick={() => setForm({ ...form, photoUrl: "" })}
-                      className="text-[10px] px-2 py-1 rounded bg-surface-2 border border-border shrink-0 hover:bg-surface-3"
-                      style={{ color: "var(--text-muted)" }}
-                    >
-                      Initials Only
-                    </button>
-                  </div>
-                </div>
-              </Field>
-            </div>
 
             <Field label="Lead Source">
               <select

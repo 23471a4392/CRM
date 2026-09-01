@@ -180,7 +180,7 @@ export default function SpotlightModal({
                         }}
                       >
                         <div className="flex items-center gap-2.5 min-w-0">
-                          <Avatar name={c.name} photoUrl={c.photoUrl} size="sm" />
+                          <Avatar name={c.name} size="sm" />
                           <div className="truncate">
                             <span className="font-medium">{c.name}</span>
                             {c.company && (

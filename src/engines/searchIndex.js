@@ -1,15 +1,15 @@
 /** Client-side search index */
-export function tokenize(text) {{
-  return String(text||"").toLowerCase().replace(/[^a-z0-9@.+\s-]/g," ").split(/\s+/).filter(t=>t.length>1);
-}}
-export function buildContactIndex(contacts) {{
+export function tokenize(text) {
+  return String(text || "").toLowerCase().replace(/[^a-z0-9@.+\s-]/g, " ").split(/\s+/).filter(t => t.length > 1);
+}
+export function buildContactIndex(contacts) {
   const index = new Map();
-  for (const c of contacts) {{
+  for (const c of contacts) {
     const tokens = new Set([...tokenize(c.name), ...tokenize(c.email), ...tokenize(c.company)]);
-    for (const t of tokens) {{ if (!index.has(t)) index.set(t, new Set()); index.get(t).add(c.id); }}
-  }}
+    for (const t of tokens) { if (!index.has(t)) index.set(t, new Set()); index.get(t).add(c.id); }
+  }
   return index;
-}}
+}
 
 export function rankVariant1(doc, tokens) {
   let score = 0;

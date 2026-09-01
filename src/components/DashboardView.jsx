@@ -418,7 +418,7 @@ export default function DashboardView({
                       onClick={() => onSelectContact(c)}
                       className="flex items-center gap-2.5 min-w-0 cursor-pointer flex-1"
                     >
-                      <Avatar name={c.name} photoUrl={c.photoUrl} size="sm" />
+                      <Avatar name={c.name} size="sm" />
                       <div className="truncate">
                         <div className="font-semibold text-text truncate hover:underline">{c.name}</div>
                         <div className="text-[11px] truncate" style={{ color: "var(--text-muted)" }}>
